@@ -4,19 +4,14 @@ import { ActionIcon } from './ActionIcon';
 
 interface BarSegmentProps {
   bar: BarRect;
-  onHover?: (bar: BarRect | null) => void;
 }
 
-export function BarSegmentComponent({ bar, onHover }: BarSegmentProps) {
+export function BarSegmentComponent({ bar }: BarSegmentProps) {
   const patternId = `${bar.pattern}-${bar.zone}`;
   const c = zoneColors[bar.zone];
 
   return (
-    <g
-      className="bar-segment"
-      onMouseEnter={() => onHover?.(bar)}
-      onMouseLeave={() => onHover?.(null)}
-    >
+    <g className="bar-segment">
       <rect
         x={bar.x}
         y={bar.y}

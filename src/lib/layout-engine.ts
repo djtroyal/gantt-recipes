@@ -9,7 +9,7 @@ const ROW_HEIGHT = 36;
 const BAR_HEIGHT = 24;
 const BAR_PADDING = (ROW_HEIGHT - BAR_HEIGHT) / 2;
 const RIGHT_PADDING = 20;
-const BOTTOM_PADDING = 40; // space for time axis
+const BOTTOM_PADDING = 65; // space for time axis + 2-row legend
 
 export function computeGanttLayout(
   recipe: Recipe,
