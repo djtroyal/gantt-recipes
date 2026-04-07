@@ -7,7 +7,9 @@ interface BarSegmentProps {
 }
 
 export function BarSegmentComponent({ bar }: BarSegmentProps) {
-  const patternId = `${bar.pattern}-${bar.zone}`;
+  // Cool zone bars always render as solid — dotted "resting" is implied by the zone itself
+  const effectivePattern = bar.zone === 'cool' ? 'solid' : bar.pattern;
+  const patternId = `${effectivePattern}-${bar.zone}`;
   const c = zoneColors[bar.zone];
 
   return (
