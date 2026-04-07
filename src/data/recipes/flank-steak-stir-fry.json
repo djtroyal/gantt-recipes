@@ -1,0 +1,195 @@
+{
+  "id": "flank-steak-stir-fry",
+  "slug": "flank-steak-stir-fry",
+  "title": "Flank Steak Stir Fry",
+  "description": "The most chaotic griddle cook — five things overlap in the high zone between minute 1.5 and 3.5. Two spatulas earn their keep here. Overnight marinade required.",
+  "totalTimeMinutes": 5,
+  "defaultServings": 2,
+  "tags": ["beef", "stir-fry", "high-heat", "weeknight"],
+  "phases": [
+    { "id": "p1", "name": "Sear", "startMinute": 0, "endMinute": 2 },
+    { "id": "p2", "name": "Build", "startMinute": 2, "endMinute": 3.5 },
+    { "id": "p3", "name": "Sauce", "startMinute": 3.5, "endMinute": 4.5 },
+    { "id": "p4", "name": "Plate", "startMinute": 4.5, "endMinute": 5 }
+  ],
+  "ingredients": [
+    {
+      "id": "flank-steak",
+      "name": "Flank steak",
+      "quantity": "1 lb, sliced thin",
+      "segments": [
+        {
+          "startMinute": 0,
+          "endMinute": 2.5,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 0, "icon": "oil-squirt", "note": "High smoke-point oil" },
+            { "minuteMark": 1.2, "icon": "flip", "note": "Flip strips once" }
+          ]
+        },
+        {
+          "startMinute": 2.5,
+          "endMinute": 5,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 0.5, "text": "Loud, aggressive sizzle" },
+        { "minuteMark": 1.2, "text": "Deep brown on contact side" }
+      ],
+      "failureModes": [
+        { "condition": "Crowded surface", "result": "Steams instead of sears" },
+        { "condition": "Too long", "result": "Rubbery, overcooked" }
+      ],
+      "isCriticalPath": true,
+      "prepDotIds": ["prep-marinate", "prep-slice-steak"]
+    },
+    {
+      "id": "bell-peppers",
+      "name": "Bell peppers",
+      "quantity": "2, sliced",
+      "segments": [
+        {
+          "startMinute": 1,
+          "endMinute": 3,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 2, "icon": "toss", "note": "Toss once" }
+          ]
+        },
+        {
+          "startMinute": 3,
+          "endMinute": 5,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 2.5, "text": "Charred edges, still crisp" }
+      ],
+      "failureModes": [
+        { "condition": "Too long", "result": "Mushy, no snap" }
+      ],
+      "isCriticalPath": false,
+      "prepDotIds": ["prep-slice-veg"]
+    },
+    {
+      "id": "snap-peas",
+      "name": "Snap peas",
+      "quantity": "1 cup",
+      "segments": [
+        {
+          "startMinute": 1.5,
+          "endMinute": 3,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 2.2, "icon": "toss" }
+          ]
+        },
+        {
+          "startMinute": 3,
+          "endMinute": 5,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 2.5, "text": "Bright green, slight char" }
+      ],
+      "failureModes": [
+        { "condition": "Over 3 min", "result": "Limp, army green" }
+      ],
+      "isCriticalPath": false,
+      "prepDotIds": ["prep-slice-veg"]
+    },
+    {
+      "id": "garlic-ginger",
+      "name": "Garlic + ginger",
+      "quantity": "4 cloves + 1\" knob, minced",
+      "segments": [
+        {
+          "startMinute": 2.5,
+          "endMinute": 3,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 2.7, "icon": "toss", "note": "Toss constantly, burns fast" }
+          ]
+        },
+        {
+          "startMinute": 3,
+          "endMinute": 5,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 2.8, "text": "Nutty aroma = move NOW" }
+      ],
+      "failureModes": [
+        { "condition": "30 sec too long", "result": "Acrid, bitter" }
+      ],
+      "isCriticalPath": false,
+      "prepDotIds": ["prep-slice-veg"]
+    },
+    {
+      "id": "soy-butter-sauce",
+      "name": "Soy-butter sauce",
+      "quantity": "3 tbsp mix",
+      "segments": [
+        {
+          "startMinute": 3.5,
+          "endMinute": 4.5,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 3.5, "icon": "liquid-squirt", "note": "Pour sauce on hot surface" },
+            { "minuteMark": 3.7, "icon": "steam", "note": "Steam burst — toss to coat" },
+            { "minuteMark": 4, "icon": "cover", "note": "Dome 30 sec to glaze" }
+          ]
+        }
+      ],
+      "dependsOn": ["flank-steak", "bell-peppers", "snap-peas", "garlic-ginger"],
+      "sensoryMarkers": [
+        { "minuteMark": 3.6, "text": "Aggressive bubbling = good" },
+        { "minuteMark": 4.2, "text": "Sauce should coat, not pool" }
+      ],
+      "failureModes": [
+        { "condition": "Added too early", "result": "Everything steams, no sear" },
+        { "condition": "Too much liquid", "result": "Soupy, not glazed" }
+      ],
+      "isCriticalPath": false,
+      "prepDotIds": ["prep-whisk-sauce"]
+    }
+  ],
+  "prepTasks": [
+    { "id": "prep-marinate", "timing": "night-before", "icon": "marinate", "description": "Marinate steak overnight: soy, sesame, garlic", "ingredientIds": ["flank-steak"] },
+    { "id": "prep-slice-steak", "timing": "day-of", "icon": "slice", "description": "Slice steak thin against grain", "ingredientIds": ["flank-steak"] },
+    { "id": "prep-slice-veg", "timing": "day-of", "icon": "slice", "description": "Slice peppers, trim peas, mince garlic + ginger", "ingredientIds": ["bell-peppers", "snap-peas", "garlic-ginger"] },
+    { "id": "prep-whisk-sauce", "timing": "day-of", "icon": "whisk", "description": "Whisk: soy + butter + brown sugar + cornstarch slurry", "ingredientIds": ["soy-butter-sauce"] },
+    { "id": "prep-pat-dry", "timing": "last-30-seconds", "icon": "pat-dry", "description": "Pat steak slices dry", "ingredientIds": ["flank-steak"] },
+    { "id": "prep-preheat", "timing": "last-30-seconds", "icon": "preheat", "description": "Preheat griddle screaming hot", "ingredientIds": [] }
+  ],
+  "griddlePlacements": [
+    { "ingredientId": "flank-steak", "zone": "high", "startMinute": 0, "endMinute": 2.5, "position": { "x": 0.5, "y": 0.3 } },
+    { "ingredientId": "bell-peppers", "zone": "high", "startMinute": 1, "endMinute": 3, "position": { "x": 0.2, "y": 0.2 } },
+    { "ingredientId": "snap-peas", "zone": "high", "startMinute": 1.5, "endMinute": 3, "position": { "x": 0.8, "y": 0.2 } },
+    { "ingredientId": "garlic-ginger", "zone": "high", "startMinute": 2.5, "endMinute": 3, "position": { "x": 0.5, "y": 0.15 } },
+    { "ingredientId": "soy-butter-sauce", "zone": "high", "startMinute": 3.5, "endMinute": 4.5, "position": { "x": 0.5, "y": 0.3 } }
+  ],
+  "plateUpStartMinute": 4.5,
+  "createdAt": "2026-04-07T00:00:00Z",
+  "updatedAt": "2026-04-07T00:00:00Z"
+}
