@@ -36,14 +36,15 @@ function renderIcon(icon: CookActionIcon, s: number, c: string) {
     case 'flip':
       return (
         <g>
-          <path
-            d={`M${s * 0.7} ${s * 0.2} l${s * 0.15} ${s * 0.15} l-${s * 0.15} ${s * 0.15}`}
-            stroke={c} strokeWidth={1.5} fill="none" strokeLinecap="round" strokeLinejoin="round"
-          />
-          <path
-            d={`M${s * 0.15} ${s * 0.5} C${s * 0.15} ${s * 0.15} ${s * 0.85} ${s * 0.15} ${s * 0.85} ${s * 0.35}`}
-            stroke={c} strokeWidth={1.5} fill="none" strokeLinecap="round"
-          />
+          {/* Flat food item at bottom */}
+          <rect x={s * 0.1} y={s * 0.65} width={s * 0.8} height={s * 0.12} rx={2}
+            fill={c} fillOpacity={0.3} stroke={c} strokeWidth={1} />
+          {/* Arc trajectory above food item */}
+          <path d={`M${s * 0.15} ${s * 0.65} A${s * 0.35} ${s * 0.35} 0 0 1 ${s * 0.85} ${s * 0.65}`}
+            stroke={c} strokeWidth={1.5} fill="none" strokeLinecap="round" />
+          {/* Arrowhead at right end of arc */}
+          <path d={`M${s * 0.85} ${s * 0.53} L${s * 0.85} ${s * 0.65} L${s * 0.73} ${s * 0.62}`}
+            stroke={c} strokeWidth={1.5} fill="none" strokeLinecap="round" strokeLinejoin="round" />
         </g>
       );
     case 'hands-off':
@@ -67,12 +68,17 @@ function renderIcon(icon: CookActionIcon, s: number, c: string) {
     case 'toss':
       return (
         <g>
-          <path
-            d={`M${s * 0.2} ${s * 0.8} Q${s * 0.4} ${s * 0.3} ${s * 0.8} ${s * 0.2}`}
-            stroke={c} strokeWidth={1.5} fill="none" strokeLinecap="round" strokeDasharray="2,2"
-          />
-          <circle cx={s * 0.65} cy={s * 0.35} r={s * 0.06} fill={c} />
-          <circle cx={s * 0.8} cy={s * 0.22} r={s * 0.05} fill={c} />
+          {/* Pan/bowl at bottom */}
+          <path d={`M${s * 0.1} ${s * 0.75} Q${s * 0.5} ${s * 0.88} ${s * 0.9} ${s * 0.75}`}
+            stroke={c} strokeWidth={1.5} fill="none" strokeLinecap="round" />
+          {/* Flying food particles at different heights */}
+          <circle cx={s * 0.3} cy={s * 0.55} r={s * 0.05} fill={c} />
+          <circle cx={s * 0.5} cy={s * 0.32} r={s * 0.06} fill={c} />
+          <circle cx={s * 0.72} cy={s * 0.48} r={s * 0.05} fill={c} />
+          {/* Motion lines above particles */}
+          <line x1={s * 0.3} y1={s * 0.65} x2={s * 0.3} y2={s * 0.58} stroke={c} strokeWidth={1} strokeLinecap="round" />
+          <line x1={s * 0.5} y1={s * 0.42} x2={s * 0.5} y2={s * 0.35} stroke={c} strokeWidth={1} strokeLinecap="round" />
+          <line x1={s * 0.72} y1={s * 0.58} x2={s * 0.72} y2={s * 0.51} stroke={c} strokeWidth={1} strokeLinecap="round" />
         </g>
       );
     case 'steam':

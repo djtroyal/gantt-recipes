@@ -25,7 +25,7 @@ export function RecipePage() {
     servingsMultiplier, setServingsMultiplier,
   } = useInteractiveStore();
 
-  const [showGriddleMap, setShowGriddleMap] = useState(false);
+  const [showGriddleMap, setShowGriddleMap] = useState(true);
   const animRef = useRef<number>(0);
   const lastTimeRef = useRef<number>(0);
 
