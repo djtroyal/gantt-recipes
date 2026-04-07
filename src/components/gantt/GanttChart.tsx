@@ -1,6 +1,5 @@
-import { useMemo, useState, useRef, useCallback } from 'react';
+import { useMemo, useRef } from 'react';
 import type { Recipe } from '../../types/recipe';
-import type { BarRect } from '../../types/gantt';
 import { computeGanttLayout } from '../../lib/layout-engine';
 import { PatternDefs } from './patterns/PatternDefs';
 import { TimeAxis } from './TimeAxis';
@@ -8,51 +7,41 @@ import { IngredientAxis } from './IngredientAxis';
 import { PhaseOverlay } from './PhaseOverlay';
 import { BarSegmentComponent } from './BarSegmentComponent';
 import { SpatulaCounter } from './SpatulaCounter';
-import { ConnectorLines } from './ConnectorLine';
+import { ActionIcon } from './ActionIcon';
 import { zoneColors } from '../../lib/color-palette';
+import type { CookActionIcon } from '../../types/recipe';
 
 interface GanttChartProps {
   recipe: Recipe;
   width?: number;
   interactive?: boolean;
   cursorMinute?: number | null;
-  onCursorChange?: (minute: number | null) => void;
   servingsMultiplier?: number;
 }
+
+const actionIconLegend: { icon: CookActionIcon; label: string }[] = [
+  { icon: 'flip', label: 'Flip' },
+  { icon: 'hands-off', label: 'Hands Off' },
+  { icon: 'cover', label: 'Dome' },
+  { icon: 'toss', label: 'Toss' },
+  { icon: 'steam', label: 'Steam' },
+  { icon: 'oil-squirt', label: 'Oil' },
+  { icon: 'liquid-squirt', label: 'Liquid' },
+];
 
 export function GanttChart({
   recipe,
   width = 900,
   interactive = false,
   cursorMinute = null,
-  onCursorChange,
   servingsMultiplier = 1,
 }: GanttChartProps) {
-  const [hoveredBar, setHoveredBar] = useState<BarRect | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
   const layout = useMemo(
     () => computeGanttLayout(recipe, width, servingsMultiplier),
     [recipe, width, servingsMultiplier]
   );
-
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent<SVGSVGElement>) => {
-      if (!interactive || !onCursorChange || !svgRef.current) return;
-      const rect = svgRef.current.getBoundingClientRect();
-      const svgX = e.clientX - rect.left;
-      const minute =
-        ((svgX - layout.chartLeft) / layout.chartWidth) * recipe.totalTimeMinutes;
-      if (minute >= 0 && minute <= recipe.totalTimeMinutes) {
-        onCursorChange(minute);
-      }
-    },
-    [interactive, onCursorChange, layout, recipe.totalTimeMinutes]
-  );
-
-  const handleMouseLeave = useCallback(() => {
-    if (interactive && onCursorChange) onCursorChange(null);
-  }, [interactive, onCursorChange]);
 
   return (
     <svg
@@ -61,8 +50,6 @@ export function GanttChart({
       height={layout.totalHeight}
       viewBox={`0 0 ${layout.totalWidth} ${layout.totalHeight}`}
       className="gantt-chart"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
       style={{ userSelect: 'none' }}
     >
       <PatternDefs />
@@ -110,12 +97,8 @@ export function GanttChart({
         <BarSegmentComponent
           key={`${bar.ingredientId}-${bar.segmentIndex}`}
           bar={bar}
-          onHover={setHoveredBar}
         />
       ))}
-
-      {/* Connector lines (dependencies) */}
-      <ConnectorLines recipe={recipe} layout={layout} />
 
       {/* "You are here" cursor */}
       {interactive && cursorMinute !== null && (
@@ -155,61 +138,8 @@ export function GanttChart({
         />
       )}
 
-      {/* Hovered bar tooltip */}
-      {hoveredBar && (
-        <g className="tooltip">
-          {(() => {
-            const ing = recipe.ingredients.find((i) => i.id === hoveredBar.ingredientId);
-            if (!ing) return null;
-            const seg = ing.segments[hoveredBar.segmentIndex];
-            const failureModes = ing.failureModes;
-            const sensory = ing.sensoryMarkers.filter(
-              (s) => s.minuteMark >= seg.startMinute && s.minuteMark <= seg.endMinute
-            );
-            const tipX = hoveredBar.x + hoveredBar.width / 2;
-            const tipY = hoveredBar.y - 8;
-            const lines: string[] = [
-              `${ing.name} — ${seg.zone} zone`,
-              `${seg.startMinute}–${seg.endMinute} min`,
-            ];
-            sensory.forEach((s) => lines.push(`${s.text}`));
-            failureModes.forEach((f) => lines.push(`${f.condition}: ${f.result}`));
-
-            return (
-              <g>
-                <rect
-                  x={tipX - 80}
-                  y={tipY - lines.length * 14 - 6}
-                  width={160}
-                  height={lines.length * 14 + 8}
-                  fill="white"
-                  stroke="#e5e7eb"
-                  strokeWidth={1}
-                  rx={4}
-                  filter="drop-shadow(0 1px 2px rgba(0,0,0,0.1))"
-                />
-                {lines.map((line, i) => (
-                  <text
-                    key={i}
-                    x={tipX}
-                    y={tipY - (lines.length - i - 1) * 14 - 4}
-                    textAnchor="middle"
-                    fontSize={10}
-                    fill={i === 0 ? '#374151' : '#6b7280'}
-                    fontWeight={i === 0 ? 600 : 400}
-                    fontFamily="system-ui, sans-serif"
-                  >
-                    {line}
-                  </text>
-                ))}
-              </g>
-            );
-          })()}
-        </g>
-      )}
-
-      {/* Zone legend */}
-      <g transform={`translate(${layout.chartLeft}, ${layout.totalHeight - 14})`}>
+      {/* Legend Row 1: Zones + Don't Touch */}
+      <g transform={`translate(${layout.chartLeft}, ${layout.totalHeight - 36})`}>
         {(['high', 'medium', 'cool'] as const).map((zone, i) => (
           <g key={zone} transform={`translate(${i * 110}, 0)`}>
             <rect width={12} height={12} rx={2} fill={zoneColors[zone].fill} />
@@ -218,19 +148,24 @@ export function GanttChart({
             </text>
           </g>
         ))}
-        {/* Pattern legend */}
-        <g transform={`translate(340, 0)`}>
-          <rect width={12} height={12} rx={2} fill="#9ca3af" />
-          <text x={16} y={10} fontSize={10} fill="#6b7280">Solid = Active</text>
-        </g>
-        <g transform={`translate(440, 0)`}>
+        <g transform="translate(340, 0)">
           <rect width={12} height={12} rx={2} fill="url(#hatched-medium)" stroke="#d97706" strokeWidth={0.5} />
-          <text x={16} y={10} fontSize={10} fill="#6b7280">Hatched = Hands Off</text>
+          <text x={16} y={10} fontSize={10} fill="#6b7280" fontFamily="system-ui, sans-serif">
+            Don't Touch
+          </text>
         </g>
-        <g transform={`translate(570, 0)`}>
-          <rect width={12} height={12} rx={2} fill="url(#dotted-cool)" stroke="#2563eb" strokeWidth={0.5} />
-          <text x={16} y={10} fontSize={10} fill="#6b7280">Dotted = Resting</text>
-        </g>
+      </g>
+
+      {/* Legend Row 2: Action Icons */}
+      <g transform={`translate(${layout.chartLeft}, ${layout.totalHeight - 16})`}>
+        {actionIconLegend.map((item, i) => (
+          <g key={item.icon} transform={`translate(${i * 95}, 0)`}>
+            <ActionIcon icon={item.icon} x={7} y={6} size={12} />
+            <text x={16} y={10} fontSize={9} fill="#9ca3af" fontFamily="system-ui, sans-serif">
+              {item.label}
+            </text>
+          </g>
+        ))}
       </g>
     </svg>
   );

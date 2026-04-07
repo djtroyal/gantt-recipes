@@ -8,12 +8,20 @@ import { ActiveTaskPanel } from '../components/interactive/ActiveTaskPanel';
 import { ServingsScaler } from '../components/interactive/ServingsScaler';
 import { GriddleMapView } from '../components/griddle-map/GriddleMapView';
 
+const SPEED_OPTIONS = [
+  { label: '1x', value: 1 },
+  { label: '2x', value: 2 },
+  { label: '4x', value: 4 },
+  { label: 'Real-time', value: 1 / 60 },
+];
+
 export function RecipePage() {
   const { slug } = useParams<{ slug: string }>();
   const { initialize, getRecipeBySlug } = useRecipeStore();
   const {
     cursorMinute, setCursorMinute,
     isPlaying, setIsPlaying,
+    playbackSpeed, setPlaybackSpeed,
     servingsMultiplier, setServingsMultiplier,
   } = useInteractiveStore();
 
@@ -28,15 +36,17 @@ export function RecipePage() {
   const recipe = getRecipeBySlug(slug || '');
 
   // Playback animation loop
+  // At 1x: 1 recipe-minute = 1 real second
+  // At real-time (1/60): 1 recipe-minute = 60 real seconds
   useEffect(() => {
     if (!isPlaying || !recipe) return;
     lastTimeRef.current = performance.now();
 
     const animate = (now: number) => {
-      const dt = (now - lastTimeRef.current) / 1000; // real seconds
+      const dt = (now - lastTimeRef.current) / 1000; // real seconds elapsed
       lastTimeRef.current = now;
       const current = cursorMinute ?? 0;
-      const next = current + dt * 0.5; // 0.5 recipe-minutes per real second
+      const next = current + dt * playbackSpeed; // recipe-minutes advanced
       if (next >= recipe.totalTimeMinutes) {
         setCursorMinute(recipe.totalTimeMinutes);
         setIsPlaying(false);
@@ -47,7 +57,7 @@ export function RecipePage() {
     };
     animRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animRef.current);
-  }, [isPlaying, recipe, cursorMinute, setCursorMinute, setIsPlaying]);
+  }, [isPlaying, recipe, cursorMinute, setCursorMinute, setIsPlaying, playbackSpeed]);
 
   const handlePlayPause = useCallback(() => {
     if (!recipe) return;
@@ -123,17 +133,34 @@ export function RecipePage() {
         >
           {isPlaying ? 'Pause' : 'Play'}
         </button>
-        {cursorMinute !== null && (
-          <input
-            type="range"
-            min={0}
-            max={recipe.totalTimeMinutes}
-            step={0.1}
-            value={cursorMinute}
-            onChange={(e) => setCursorMinute(parseFloat(e.target.value))}
-            className="flex-1 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-          />
-        )}
+
+        {/* Speed selector */}
+        <div className="flex items-center border border-gray-200 rounded-md overflow-hidden">
+          {SPEED_OPTIONS.map((opt) => (
+            <button
+              key={opt.label}
+              onClick={() => setPlaybackSpeed(opt.value)}
+              className={`px-2.5 py-1 text-xs font-medium transition-colors ${
+                playbackSpeed === opt.value
+                  ? 'bg-gray-900 text-white'
+                  : 'bg-white text-gray-500 hover:bg-gray-50'
+              }`}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+
+        <input
+          type="range"
+          min={0}
+          max={recipe.totalTimeMinutes}
+          step={0.1}
+          value={cursorMinute ?? 0}
+          onChange={(e) => setCursorMinute(parseFloat(e.target.value))}
+          className="flex-1 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+        />
+
         <button
           onClick={() => setShowGriddleMap(!showGriddleMap)}
           className={`px-3 py-1.5 text-sm font-medium rounded-md border ${
@@ -147,7 +174,7 @@ export function RecipePage() {
         <span className="text-xs text-gray-400">Space = play/pause, Arrows = step</span>
       </div>
 
-      {/* Main Chart Area */}
+      {/* Main Chart Area — fixed layout, ActiveTaskPanel always present */}
       <div className="flex gap-4">
         <div className="flex-1 bg-white rounded-xl border border-gray-200 p-4 overflow-x-auto">
           <GanttChart
@@ -155,17 +182,20 @@ export function RecipePage() {
             width={900}
             interactive
             cursorMinute={cursorMinute}
-            onCursorChange={setCursorMinute}
             servingsMultiplier={servingsMultiplier}
           />
         </div>
 
-        {/* Active Task Panel */}
-        {cursorMinute !== null && (
-          <div className="w-56 flex-shrink-0 no-print">
+        {/* Active Task Panel — always rendered for stable layout */}
+        <div className="w-56 flex-shrink-0 no-print">
+          {cursorMinute !== null ? (
             <ActiveTaskPanel recipe={recipe} cursorMinute={cursorMinute} />
-          </div>
-        )}
+          ) : (
+            <div className="bg-white rounded-lg border border-gray-200 p-3 text-xs text-gray-300">
+              Play or drag the slider to see active tasks
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Griddle Map View */}
