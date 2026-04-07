@@ -126,22 +126,30 @@ function separateItems(
   zoneWidth: number,
   griddleH: number
 ) {
-  // Only separate non-addedTo items (badges follow parents naturally)
+  // Only separate non-addedTo items (satellites follow parents naturally)
   const placed = items.filter((i) => !i.isAddedTo);
 
-  for (let iter = 0; iter < 12; iter++) {
+  for (let iter = 0; iter < 30; iter++) {
     for (let a = 0; a < placed.length; a++) {
       for (let b = a + 1; b < placed.length; b++) {
         const pa = placed[a];
         const pb = placed[b];
         const dx = pb.targetX - pa.targetX;
         const dy = pb.targetY - pa.targetY;
-        const dist = Math.sqrt(dx * dx + dy * dy) || 0.01;
+        const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist >= MIN_DIST) continue;
 
         const overlap = (MIN_DIST - dist) / 2;
-        const nx = dx / dist;
-        const ny = dy / dist;
+        // When items are exactly coincident, push apart using deterministic angle from index
+        let nx: number, ny: number;
+        if (dist < 0.5) {
+          const angle = (a / placed.length) * Math.PI * 2;
+          nx = Math.cos(angle);
+          ny = Math.sin(angle);
+        } else {
+          nx = dx / dist;
+          ny = dy / dist;
+        }
 
         pa.targetX -= nx * overlap;
         pa.targetY -= ny * overlap;
@@ -151,7 +159,7 @@ function separateItems(
         // Clamp each to its zone
         const clamp = (item: ActiveItem) => {
           const { left, right } = zoneXRange(item.zoneIndex, griddleX, zoneWidth);
-          const margin = RADIUS + 2;
+          const margin = RADIUS + 4;
           item.targetX = Math.max(left + margin, Math.min(right - margin, item.targetX));
           item.targetY = Math.max(griddleY + margin, Math.min(griddleY + griddleH - margin, item.targetY));
         };
@@ -257,29 +265,30 @@ function drawFrame(
   const items = computeActiveItems(recipe, cursor, griddleX, griddleY, zoneWidth, griddleH);
   separateItems(items, griddleX, griddleY, zoneWidth, griddleH);
 
-  // Update rendered positions via exponential smoothing
+  // Update rendered positions via exponential smoothing, keyed by ingredientId so
+  // position is preserved across key changes (zone transitions, placement boundaries).
   const alpha = 1 - Math.exp(-dt * TWEEN_SPEED);
   for (const item of items) {
-    const cur = positions.get(item.key);
+    const cur = positions.get(item.ingredientId);
     if (!cur) {
       // First appearance: teleport
-      positions.set(item.key, { x: item.targetX, y: item.targetY });
+      positions.set(item.ingredientId, { x: item.targetX, y: item.targetY });
     } else {
       cur.x += (item.targetX - cur.x) * alpha;
       cur.y += (item.targetY - cur.y) * alpha;
     }
   }
   // Remove stale positions
-  const activeKeys = new Set(items.map((i) => i.key));
+  const activeIds = new Set(items.map((i) => i.ingredientId));
   for (const key of positions.keys()) {
-    if (!activeKeys.has(key)) positions.delete(key);
+    if (!activeIds.has(key)) positions.delete(key);
   }
 
-  // Build a lookup of rendered positions by ingredientId for badge parent computation
+  // Build a lookup of rendered positions by ingredientId for satellite parent computation
   const renderedById = new Map<string, { x: number; y: number }>();
   for (const item of items) {
     if (!item.isAddedTo) {
-      const p = positions.get(item.key);
+      const p = positions.get(item.ingredientId);
       if (p) renderedById.set(item.ingredientId, p);
     }
   }
@@ -287,7 +296,7 @@ function drawFrame(
   // Draw non-addedTo items first
   for (const item of items) {
     if (item.isAddedTo) continue;
-    const pos = positions.get(item.key);
+    const pos = positions.get(item.ingredientId);
     if (!pos) continue;
 
     const c = zoneColors[item.zoneIndex === 0 ? 'high' : item.zoneIndex === 1 ? 'medium' : 'cool'];
@@ -322,7 +331,8 @@ function drawFrame(
     drawLabelPill(ctx, pos.x, pos.y, item.name, c.fill);
   }
 
-  // Draw "added to" badges
+  // Draw "added to" satellites — small circles sitting on the rim of the parent
+  const SAT_R = 13;
   for (const item of items) {
     if (!item.isAddedTo) continue;
 
@@ -337,9 +347,9 @@ function drawFrame(
     const centX = parentPositions.reduce((s, p) => s + p.x, 0) / parentPositions.length;
     const centY = parentPositions.reduce((s, p) => s + p.y, 0) / parentPositions.length;
 
-    const badgeX = centX;
-    const badgeY = centY - RADIUS - 28;
-    const bw = 52, bh = 22;
+    // Satellite sits on the top rim of the primary parent circle
+    const satX = centX;
+    const satY = centY - RADIUS + SAT_R - 4;
 
     // Determine zone from first parent
     const firstParent = items.find((i) => i.ingredientId === item.parentIds[0] && !i.isAddedTo);
@@ -348,36 +358,26 @@ function drawFrame(
       : 'medium';
     const c = zoneColors[zone];
 
-    // Dotted lines to each parent
-    ctx.setLineDash([2, 3]);
-    ctx.strokeStyle = c.fill + '70';
-    ctx.lineWidth = 1;
-    for (const pp of parentPositions) {
-      ctx.beginPath();
-      ctx.moveTo(centX, centY - RADIUS - 4);
-      ctx.lineTo(pp.x, pp.y - RADIUS + 4);
-      ctx.stroke();
-    }
-    ctx.setLineDash([]);
-
-    // Badge background
-    ctx.fillStyle = c.fill + '30';
-    ctx.strokeStyle = c.stroke;
-    ctx.lineWidth = 1.5;
-    ctx.setLineDash([3, 2]);
+    // Satellite circle
     ctx.beginPath();
-    ctx.roundRect(badgeX - bw / 2, badgeY - bh / 2, bw, bh, 4);
+    ctx.arc(satX, satY, SAT_R, 0, Math.PI * 2);
+    ctx.fillStyle = c.fill;
+    ctx.globalAlpha = 0.92;
     ctx.fill();
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 2;
     ctx.stroke();
-    ctx.setLineDash([]);
 
-    // Badge label: "+ name"
-    ctx.fillStyle = '#f9fafb';
-    ctx.font = 'bold 8px system-ui, sans-serif';
+    // "+" label
+    ctx.fillStyle = '#ffffff';
+    ctx.font = `bold 9px system-ui, sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    const short = item.name.split(' ').slice(0, 2).join(' ');
-    ctx.fillText(`+ ${short}`, badgeX, badgeY);
+    ctx.fillText(`+${getInitials(item.name)}`, satX, satY);
+
+    // Small name tag below parent circle
+    drawLabelPill(ctx, centX, centY, `+${item.name}`, c.fill);
   }
 
   // Time display
