@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+:root {
+  --zone-high: #f87171;
+  --zone-high-light: #fecaca;
+  --zone-medium: #fbbf24;
+  --zone-medium-light: #fde68a;
+  --zone-cool: #60a5fa;
+  --zone-cool-light: #bfdbfe;
+  --zone-high-print: #555;
+  --zone-medium-print: #999;
+  --zone-cool-print: #ccc;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #fafafa;
+  color: #1a1a1a;
+}
+
+@media print {
+  body { background: white; }
+  .no-print { display: none !important; }
+  @page { size: landscape; margin: 0.5in; }
+}

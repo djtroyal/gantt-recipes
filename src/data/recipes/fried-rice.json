@@ -1,0 +1,223 @@
+{
+  "id": "fried-rice",
+  "slug": "fried-rice",
+  "title": "Griddle Fried Rice",
+  "description": "Lives almost entirely in the medium zone. The long crispy rice bar (3 to 6.5 min) is the heart of the dish — that's the 'leave it alone' window.",
+  "totalTimeMinutes": 8,
+  "defaultServings": 2,
+  "tags": ["rice", "weeknight", "medium-heat", "leftover-friendly"],
+  "phases": [
+    { "id": "p1", "name": "Oil & Egg", "startMinute": 0, "endMinute": 2 },
+    { "id": "p2", "name": "Rice Down", "startMinute": 2, "endMinute": 3 },
+    { "id": "p3", "name": "Crisp", "startMinute": 3, "endMinute": 6.5 },
+    { "id": "p4", "name": "Finish", "startMinute": 6.5, "endMinute": 8 }
+  ],
+  "ingredients": [
+    {
+      "id": "eggs",
+      "name": "Eggs",
+      "quantity": "2, beaten",
+      "segments": [
+        {
+          "startMinute": 0.5,
+          "endMinute": 1.5,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 0.5, "icon": "oil-squirt", "note": "Oil then eggs immediately" },
+            { "minuteMark": 1, "icon": "toss", "note": "Scramble loosely, big curds" }
+          ]
+        },
+        {
+          "startMinute": 1.5,
+          "endMinute": 8,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 0.8, "text": "Edges set but center still wet" }
+      ],
+      "failureModes": [
+        { "condition": "Overcooked", "result": "Rubbery, dry curds" }
+      ],
+      "isCriticalPath": false,
+      "prepDotIds": []
+    },
+    {
+      "id": "rice",
+      "name": "Day-old rice",
+      "quantity": "3 cups, cold",
+      "segments": [
+        {
+          "startMinute": 2,
+          "endMinute": 3,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 2, "icon": "oil-squirt", "note": "Generous oil on surface" }
+          ]
+        },
+        {
+          "startMinute": 3,
+          "endMinute": 6.5,
+          "zone": "medium",
+          "pattern": "hatched",
+          "actions": [
+            { "minuteMark": 3, "icon": "hands-off", "note": "DO NOT TOUCH — let it crisp" }
+          ]
+        },
+        {
+          "startMinute": 6.5,
+          "endMinute": 7,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 6.5, "icon": "flip", "note": "Break up and flip the sheet" },
+            { "minuteMark": 6.7, "icon": "liquid-squirt", "note": "Soy sauce around edges" }
+          ]
+        },
+        {
+          "startMinute": 7,
+          "endMinute": 8,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 4, "text": "Bottom should be golden, crackling" },
+        { "minuteMark": 6.5, "text": "Crispy sheet lifts cleanly" }
+      ],
+      "failureModes": [
+        { "condition": "Stirred during crisp", "result": "Soft, no texture" },
+        { "condition": "Too little oil", "result": "Sticks and tears" }
+      ],
+      "isCriticalPath": true,
+      "prepDotIds": ["prep-rice"]
+    },
+    {
+      "id": "aromatics",
+      "name": "Garlic + ginger",
+      "quantity": "3 cloves + 1\" knob",
+      "segments": [
+        {
+          "startMinute": 1.5,
+          "endMinute": 2,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 1.7, "icon": "toss", "note": "Quick 30-sec bloom" }
+          ]
+        },
+        {
+          "startMinute": 2,
+          "endMinute": 8,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 1.8, "text": "Fragrant, not brown" }
+      ],
+      "failureModes": [
+        { "condition": "Burnt", "result": "Acrid, bitter taste throughout" }
+      ],
+      "isCriticalPath": false,
+      "prepDotIds": ["prep-mince"]
+    },
+    {
+      "id": "scallions",
+      "name": "Scallions",
+      "quantity": "4, sliced (whites + greens separate)",
+      "segments": [
+        {
+          "startMinute": 1.5,
+          "endMinute": 2,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": []
+        },
+        {
+          "startMinute": 7,
+          "endMinute": 7.5,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 7, "icon": "toss", "note": "Green tops — toss briefly" }
+          ]
+        }
+      ],
+      "dependsOn": ["rice"],
+      "sensoryMarkers": [],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": ["prep-mince"]
+    },
+    {
+      "id": "frozen-peas",
+      "name": "Frozen peas",
+      "quantity": "1/2 cup",
+      "segments": [
+        {
+          "startMinute": 6.5,
+          "endMinute": 7.5,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 6.5, "icon": "steam", "note": "Steam burst when they hit hot surface" }
+          ]
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": []
+    },
+    {
+      "id": "sesame-oil",
+      "name": "Sesame oil + soy",
+      "quantity": "1 tbsp each",
+      "segments": [
+        {
+          "startMinute": 7,
+          "endMinute": 7.5,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 7, "icon": "liquid-squirt", "note": "Drizzle and toss everything together" }
+          ]
+        }
+      ],
+      "dependsOn": ["rice", "eggs"],
+      "sensoryMarkers": [
+        { "minuteMark": 7.2, "text": "Everything coated, glossy" }
+      ],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": []
+    }
+  ],
+  "prepTasks": [
+    { "id": "prep-rice", "timing": "night-before", "icon": "preheat", "description": "Cook rice, spread on sheet, refrigerate overnight", "ingredientIds": ["rice"] },
+    { "id": "prep-mince", "timing": "day-of", "icon": "slice", "description": "Mince garlic + ginger, slice scallions", "ingredientIds": ["aromatics", "scallions"] },
+    { "id": "prep-beat-eggs", "timing": "day-of", "icon": "whisk", "description": "Beat eggs with pinch of salt", "ingredientIds": ["eggs"] },
+    { "id": "prep-preheat", "timing": "last-30-seconds", "icon": "preheat", "description": "Preheat griddle medium-high", "ingredientIds": [] }
+  ],
+  "griddlePlacements": [
+    { "ingredientId": "eggs", "zone": "high", "startMinute": 0.5, "endMinute": 1.5, "position": { "x": 0.3, "y": 0.3 } },
+    { "ingredientId": "aromatics", "zone": "medium", "startMinute": 1.5, "endMinute": 2, "position": { "x": 0.7, "y": 0.6 } },
+    { "ingredientId": "scallions", "zone": "medium", "startMinute": 1.5, "endMinute": 2, "position": { "x": 0.8, "y": 0.6 } },
+    { "ingredientId": "rice", "zone": "medium", "startMinute": 2, "endMinute": 7, "position": { "x": 0.5, "y": 0.5 } },
+    { "ingredientId": "frozen-peas", "zone": "medium", "startMinute": 6.5, "endMinute": 7.5, "position": { "x": 0.3, "y": 0.6 } }
+  ],
+  "plateUpStartMinute": 7.5,
+  "createdAt": "2026-04-07T00:00:00Z",
+  "updatedAt": "2026-04-07T00:00:00Z"
+}

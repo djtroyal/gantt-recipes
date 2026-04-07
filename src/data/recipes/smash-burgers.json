@@ -1,0 +1,191 @@
+{
+  "id": "smash-burgers",
+  "slug": "smash-burgers",
+  "title": "Smash Burgers",
+  "description": "Classic diner-style smash burgers with caramelized onions and melted cheese. Front-loaded cook — onions go down first, then beef hits while onions are still cooking.",
+  "totalTimeMinutes": 7,
+  "defaultServings": 2,
+  "tags": ["beef", "quick", "weeknight", "crowd-pleaser"],
+  "phases": [
+    { "id": "p1", "name": "Prep", "startMinute": 0, "endMinute": 1 },
+    { "id": "p2", "name": "Sear", "startMinute": 1, "endMinute": 4 },
+    { "id": "p3", "name": "Build", "startMinute": 4, "endMinute": 6 },
+    { "id": "p4", "name": "Plate", "startMinute": 6, "endMinute": 7 }
+  ],
+  "ingredients": [
+    {
+      "id": "onions",
+      "name": "Diced onions",
+      "quantity": "1 medium",
+      "segments": [
+        {
+          "startMinute": 0,
+          "endMinute": 2.5,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 0, "icon": "oil-squirt", "note": "Oil the zone first" },
+            { "minuteMark": 1.2, "icon": "toss", "note": "Toss once halfway" }
+          ]
+        },
+        {
+          "startMinute": 2.5,
+          "endMinute": 7,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 1.5, "text": "Should be translucent + browning edges" }
+      ],
+      "failureModes": [
+        { "condition": "Too long on high", "result": "Burnt, bitter" }
+      ],
+      "isCriticalPath": false,
+      "prepDotIds": ["prep-dice-onions"]
+    },
+    {
+      "id": "beef",
+      "name": "Beef patties",
+      "quantity": "8 oz (2 balls)",
+      "segments": [
+        {
+          "startMinute": 1,
+          "endMinute": 2,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 1, "icon": "oil-squirt", "note": "Light oil on griddle" }
+          ]
+        },
+        {
+          "startMinute": 2,
+          "endMinute": 3.5,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 2, "icon": "flip", "note": "Smash & flip at 2 min" }
+          ]
+        },
+        {
+          "startMinute": 3.5,
+          "endMinute": 4.5,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 3.5, "icon": "cover", "note": "Add cheese, dome to melt" }
+          ]
+        },
+        {
+          "startMinute": 4.5,
+          "endMinute": 7,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 1.5, "text": "Loud sizzle = good contact" },
+        { "minuteMark": 2, "text": "Deep brown crust when you flip" },
+        { "minuteMark": 4, "text": "Cheese fully melted under dome" }
+      ],
+      "failureModes": [
+        { "condition": "Flip too early", "result": "No crust, meat sticks" },
+        { "condition": "Too long total", "result": "Dry, overcooked" }
+      ],
+      "isCriticalPath": true,
+      "prepDotIds": ["prep-form-patties"]
+    },
+    {
+      "id": "buns",
+      "name": "Burger buns",
+      "quantity": "2 buns",
+      "segments": [
+        {
+          "startMinute": 2.5,
+          "endMinute": 4,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 3.2, "icon": "flip", "note": "Check for golden" }
+          ]
+        },
+        {
+          "startMinute": 4,
+          "endMinute": 7,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 3.5, "text": "Golden brown and lightly crisp" }
+      ],
+      "failureModes": [
+        { "condition": "Forgotten on medium", "result": "Burnt bottoms" }
+      ],
+      "isCriticalPath": false,
+      "prepDotIds": []
+    },
+    {
+      "id": "cheese",
+      "name": "American cheese",
+      "quantity": "2 slices",
+      "segments": [
+        {
+          "startMinute": 3.5,
+          "endMinute": 4.5,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 3.5, "icon": "cover", "note": "Dome over patties" }
+          ]
+        }
+      ],
+      "dependsOn": ["beef"],
+      "sensoryMarkers": [],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": []
+    },
+    {
+      "id": "pickles",
+      "name": "Pickles + sauce",
+      "quantity": "As needed",
+      "segments": [
+        {
+          "startMinute": 5,
+          "endMinute": 7,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": ["prep-slice-pickles"]
+    }
+  ],
+  "prepTasks": [
+    { "id": "prep-dice-onions", "timing": "day-of", "icon": "slice", "description": "Dice onions 1/4\"", "ingredientIds": ["onions"] },
+    { "id": "prep-form-patties", "timing": "day-of", "icon": "slice", "description": "Form 4oz balls, keep loose", "ingredientIds": ["beef"] },
+    { "id": "prep-slice-pickles", "timing": "day-of", "icon": "slice", "description": "Slice pickles", "ingredientIds": ["pickles"] },
+    { "id": "prep-preheat", "timing": "last-30-seconds", "icon": "preheat", "description": "Preheat griddle high", "ingredientIds": [] },
+    { "id": "prep-sauce", "timing": "day-of", "icon": "whisk", "description": "Mix burger sauce", "ingredientIds": ["pickles"] }
+  ],
+  "griddlePlacements": [
+    { "ingredientId": "onions", "zone": "high", "startMinute": 0, "endMinute": 2.5, "position": { "x": 0.2, "y": 0.3 } },
+    { "ingredientId": "beef", "zone": "high", "startMinute": 1, "endMinute": 3.5, "position": { "x": 0.5, "y": 0.3 } },
+    { "ingredientId": "buns", "zone": "medium", "startMinute": 2.5, "endMinute": 4, "position": { "x": 0.5, "y": 0.7 } },
+    { "ingredientId": "beef", "zone": "medium", "startMinute": 3.5, "endMinute": 4.5, "position": { "x": 0.5, "y": 0.7 } }
+  ],
+  "plateUpStartMinute": 6,
+  "createdAt": "2026-04-07T00:00:00Z",
+  "updatedAt": "2026-04-07T00:00:00Z"
+}
