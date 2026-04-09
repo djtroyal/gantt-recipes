@@ -1,0 +1,180 @@
+{
+  "id": "philly-cheesesteak",
+  "slug": "philly-cheesesteak",
+  "title": "Philly Cheesesteak",
+  "description": "Thinly shaved ribeye with onions, peppers, and melted provolone on a toasted hoagie. Everything happens fast on high heat — the key is chopping the meat while it cooks.",
+  "totalTimeMinutes": 8,
+  "defaultServings": 2,
+  "tags": ["beef", "sandwich", "high-heat", "crowd-pleaser"],
+  "phases": [
+    { "id": "p1", "name": "Prep", "startMinute": 0, "endMinute": 1 },
+    { "id": "p2", "name": "Sear", "startMinute": 1, "endMinute": 4 },
+    { "id": "p3", "name": "Build", "startMinute": 4, "endMinute": 6.5 },
+    { "id": "p4", "name": "Plate", "startMinute": 6.5, "endMinute": 8 }
+  ],
+  "ingredients": [
+    {
+      "id": "onions-peppers",
+      "name": "Onions & peppers",
+      "quantity": "1 onion + 1 bell pepper, sliced",
+      "segments": [
+        {
+          "startMinute": 0.5,
+          "endMinute": 3.5,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 0.5, "icon": "oil-squirt", "note": "Oil the zone" },
+            { "minuteMark": 2, "icon": "toss", "note": "Toss halfway" }
+          ]
+        },
+        {
+          "startMinute": 3.5,
+          "endMinute": 5.5,
+          "zone": "medium",
+          "pattern": "hatched",
+          "actions": []
+        },
+        {
+          "startMinute": 5.5,
+          "endMinute": 8,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 2.5, "text": "Onions translucent, peppers softened" }
+      ],
+      "failureModes": [
+        { "condition": "Left on high too long", "result": "Charred and bitter" }
+      ],
+      "isCriticalPath": false,
+      "prepDotIds": ["prep-slice-veg"]
+    },
+    {
+      "id": "ribeye",
+      "name": "Shaved ribeye",
+      "quantity": "1 lb, thinly shaved",
+      "segments": [
+        {
+          "startMinute": 1,
+          "endMinute": 3,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 1, "icon": "oil-squirt", "note": "Light oil" },
+            { "minuteMark": 1.5, "icon": "toss", "note": "Chop with spatulas while cooking" },
+            { "minuteMark": 2.5, "icon": "toss", "note": "Keep chopping" }
+          ]
+        },
+        {
+          "startMinute": 3,
+          "endMinute": 4.5,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 3, "icon": "toss", "note": "Mix onions+peppers in with meat" }
+          ]
+        },
+        {
+          "startMinute": 4.5,
+          "endMinute": 5.5,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 4.5, "icon": "cover", "note": "Form into piles, add cheese, dome" }
+          ]
+        },
+        {
+          "startMinute": 5.5,
+          "endMinute": 8,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 1.5, "text": "Meat should sizzle loud, browning fast" },
+        { "minuteMark": 3, "text": "No pink left, chopped into small pieces" },
+        { "minuteMark": 5, "text": "Cheese melted over meat pile" }
+      ],
+      "failureModes": [
+        { "condition": "Not chopping while cooking", "result": "Big chewy chunks" },
+        { "condition": "Griddle not hot enough", "result": "Steamed not seared" }
+      ],
+      "isCriticalPath": true,
+      "prepDotIds": ["prep-shave-meat"]
+    },
+    {
+      "id": "provolone",
+      "name": "Provolone cheese",
+      "quantity": "4 slices",
+      "segments": [
+        {
+          "startMinute": 4.5,
+          "endMinute": 5.5,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 4.5, "icon": "cover", "note": "Dome to melt" }
+          ]
+        }
+      ],
+      "dependsOn": ["ribeye"],
+      "sensoryMarkers": [],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": []
+    },
+    {
+      "id": "hoagie-rolls",
+      "name": "Hoagie rolls",
+      "quantity": "2 rolls, split",
+      "segments": [
+        {
+          "startMinute": 4,
+          "endMinute": 5.5,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 4, "icon": "oil-squirt", "note": "Butter cut side" },
+            { "minuteMark": 5, "icon": "flip", "note": "Check for golden toast" }
+          ]
+        },
+        {
+          "startMinute": 5.5,
+          "endMinute": 8,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 5.5, "text": "Golden brown, firm but not hard" }
+      ],
+      "failureModes": [
+        { "condition": "Too long on medium", "result": "Rock hard toast" }
+      ],
+      "isCriticalPath": false,
+      "prepDotIds": []
+    }
+  ],
+  "prepTasks": [
+    { "id": "prep-slice-veg", "timing": "day-of", "icon": "slice", "description": "Slice onions and peppers into thin strips", "ingredientIds": ["onions-peppers"] },
+    { "id": "prep-shave-meat", "timing": "day-of", "icon": "slice", "description": "Shave ribeye thin (freeze 30min first for easier slicing)", "ingredientIds": ["ribeye"] },
+    { "id": "prep-preheat", "timing": "last-30-seconds", "icon": "preheat", "description": "Preheat griddle to high", "ingredientIds": [] }
+  ],
+  "griddlePlacements": [
+    { "ingredientId": "onions-peppers", "zone": "high", "startMinute": 0.5, "endMinute": 3.5, "position": { "x": 0.25, "y": 0.35 } },
+    { "ingredientId": "ribeye", "zone": "high", "startMinute": 1, "endMinute": 4.5, "position": { "x": 0.65, "y": 0.4 } },
+    { "ingredientId": "hoagie-rolls", "zone": "medium", "startMinute": 4, "endMinute": 5.5, "position": { "x": 0.3, "y": 0.6 } },
+    { "ingredientId": "ribeye", "zone": "medium", "startMinute": 4.5, "endMinute": 5.5, "position": { "x": 0.65, "y": 0.7 } }
+  ],
+  "plateUpStartMinute": 6.5,
+  "createdAt": "2026-04-09T00:00:00Z",
+  "updatedAt": "2026-04-09T00:00:00Z"
+}

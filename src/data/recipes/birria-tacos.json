@@ -1,0 +1,217 @@
+{
+  "id": "birria-tacos",
+  "slug": "birria-tacos",
+  "title": "Birria Tacos",
+  "description": "Consommé-dipped corn tortillas crisped on the griddle with braised birria beef and melted cheese. The birria is pre-made — this is the griddle assembly step. Dip, fill, press, flip.",
+  "totalTimeMinutes": 8,
+  "defaultServings": 3,
+  "tags": ["beef", "mexican", "tacos", "crispy", "weekend"],
+  "phases": [
+    { "id": "p1", "name": "Prep", "startMinute": 0, "endMinute": 1 },
+    { "id": "p2", "name": "Toast", "startMinute": 1, "endMinute": 4 },
+    { "id": "p3", "name": "Crisp", "startMinute": 4, "endMinute": 7 },
+    { "id": "p4", "name": "Plate", "startMinute": 7, "endMinute": 8 }
+  ],
+  "ingredients": [
+    {
+      "id": "tortillas",
+      "name": "Corn tortillas",
+      "quantity": "12 small",
+      "segments": [
+        {
+          "startMinute": 1,
+          "endMinute": 3,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 1, "icon": "oil-squirt", "note": "Dip in consommé, lay flat on griddle" }
+          ]
+        },
+        {
+          "startMinute": 3,
+          "endMinute": 5,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 3, "icon": "flip", "note": "Flip — add cheese + birria, fold in half" }
+          ]
+        },
+        {
+          "startMinute": 5,
+          "endMinute": 7,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 5, "icon": "flip", "note": "Flip tacos to crisp other side" }
+          ]
+        },
+        {
+          "startMinute": 7,
+          "endMinute": 8,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 3, "text": "Tortilla pliable, consommé soaked in" },
+        { "minuteMark": 5, "text": "First side deep red and crispy" },
+        { "minuteMark": 7, "text": "Both sides crisped, cheese melted inside" }
+      ],
+      "failureModes": [
+        { "condition": "Not enough consommé", "result": "Dry, cracks when folding" },
+        { "condition": "Heat too high", "result": "Burns before cheese melts" }
+      ],
+      "isCriticalPath": true,
+      "prepDotIds": []
+    },
+    {
+      "id": "birria-meat",
+      "name": "Birria beef",
+      "quantity": "2 cups, shredded",
+      "segments": [
+        {
+          "startMinute": 0,
+          "endMinute": 2,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 0.5, "icon": "toss", "note": "Warm and crisp edges" }
+          ]
+        },
+        {
+          "startMinute": 2,
+          "endMinute": 3.5,
+          "zone": "medium",
+          "pattern": "hatched",
+          "actions": []
+        },
+        {
+          "startMinute": 3.5,
+          "endMinute": 8,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 1.5, "text": "Edges crisped, fat rendering" }
+      ],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": ["prep-braise"]
+    },
+    {
+      "id": "oaxaca-cheese",
+      "name": "Oaxaca cheese",
+      "quantity": "8 oz, shredded",
+      "segments": [
+        {
+          "startMinute": 3,
+          "endMinute": 5,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": []
+        }
+      ],
+      "dependsOn": ["tortillas"],
+      "sensoryMarkers": [],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": []
+    },
+    {
+      "id": "consomme",
+      "name": "Consommé",
+      "quantity": "2 cups, warm",
+      "segments": [
+        {
+          "startMinute": 0.5,
+          "endMinute": 1.5,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 0.5, "icon": "liquid-squirt", "note": "Warm on griddle edge" }
+          ]
+        },
+        {
+          "startMinute": 1.5,
+          "endMinute": 8,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": ["prep-braise"]
+    },
+    {
+      "id": "onion-cilantro",
+      "name": "Onion & cilantro",
+      "quantity": "Diced, for garnish",
+      "segments": [
+        {
+          "startMinute": 7,
+          "endMinute": 8,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": ["tortillas"],
+      "sensoryMarkers": [],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": ["prep-garnish"]
+    },
+    {
+      "id": "lime-wedges",
+      "name": "Lime wedges",
+      "quantity": "2 limes, quartered",
+      "segments": [
+        {
+          "startMinute": 6,
+          "endMinute": 7,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 6, "icon": "hands-off", "note": "Char cut-side down" }
+          ]
+        },
+        {
+          "startMinute": 7,
+          "endMinute": 8,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 7, "text": "Caramelized char marks on cut face" }
+      ],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": []
+    }
+  ],
+  "prepTasks": [
+    { "id": "prep-braise", "timing": "night-before", "icon": "marinate", "description": "Braise beef chuck in dried chili consommé (3 hrs) — reserve liquid", "ingredientIds": ["birria-meat", "consomme"] },
+    { "id": "prep-garnish", "timing": "day-of", "icon": "slice", "description": "Dice white onion and chop cilantro", "ingredientIds": ["onion-cilantro"] },
+    { "id": "prep-preheat", "timing": "last-30-seconds", "icon": "preheat", "description": "Preheat griddle to medium", "ingredientIds": [] }
+  ],
+  "griddlePlacements": [
+    { "ingredientId": "birria-meat", "zone": "medium", "startMinute": 0, "endMinute": 3.5, "position": { "x": 0.3, "y": 0.3 } },
+    { "ingredientId": "consomme", "zone": "medium", "startMinute": 0.5, "endMinute": 1.5, "position": { "x": 0.7, "y": 0.3 } },
+    { "ingredientId": "tortillas", "zone": "medium", "startMinute": 1, "endMinute": 7, "position": { "x": 0.5, "y": 0.6 } },
+    { "ingredientId": "lime-wedges", "zone": "high", "startMinute": 6, "endMinute": 7, "position": { "x": 0.5, "y": 0.5 } }
+  ],
+  "plateUpStartMinute": 7,
+  "createdAt": "2026-04-09T00:00:00Z",
+  "updatedAt": "2026-04-09T00:00:00Z"
+}

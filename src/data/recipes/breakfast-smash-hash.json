@@ -1,0 +1,208 @@
+{
+  "id": "breakfast-smash-hash",
+  "slug": "breakfast-smash-hash",
+  "title": "Breakfast Smash Hash",
+  "description": "Crispy diced potatoes with bacon, peppers, and eggs on top. Potatoes need the longest cook, so they go down first and get the crispiest zone. Eggs finish last for runny yolks.",
+  "totalTimeMinutes": 12,
+  "defaultServings": 2,
+  "tags": ["breakfast", "potatoes", "bacon", "eggs", "weekend"],
+  "phases": [
+    { "id": "p1", "name": "Crisp", "startMinute": 0, "endMinute": 5 },
+    { "id": "p2", "name": "Sear", "startMinute": 5, "endMinute": 8 },
+    { "id": "p3", "name": "Build", "startMinute": 8, "endMinute": 11 },
+    { "id": "p4", "name": "Plate", "startMinute": 11, "endMinute": 12 }
+  ],
+  "ingredients": [
+    {
+      "id": "potatoes",
+      "name": "Diced potatoes",
+      "quantity": "2 large russets, 1/2\" dice",
+      "segments": [
+        {
+          "startMinute": 0,
+          "endMinute": 3,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 0, "icon": "oil-squirt", "note": "Generous oil, spread flat" }
+          ]
+        },
+        {
+          "startMinute": 3,
+          "endMinute": 6,
+          "zone": "high",
+          "pattern": "hatched",
+          "actions": [
+            { "minuteMark": 3, "icon": "hands-off", "note": "Don't touch — let crust form" }
+          ]
+        },
+        {
+          "startMinute": 6,
+          "endMinute": 8,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 6, "icon": "flip", "note": "Flip and toss, season" },
+            { "minuteMark": 7, "icon": "toss", "note": "Incorporate bacon" }
+          ]
+        },
+        {
+          "startMinute": 8,
+          "endMinute": 10,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": []
+        },
+        {
+          "startMinute": 10,
+          "endMinute": 12,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 3, "text": "Bottom layer golden and crispy" },
+        { "minuteMark": 6, "text": "Deep golden on flipped side" },
+        { "minuteMark": 8, "text": "Fork tender, crispy all over" }
+      ],
+      "failureModes": [
+        { "condition": "Toss too early", "result": "No crust, soggy hash" },
+        { "condition": "Not enough oil", "result": "Sticks and falls apart" }
+      ],
+      "isCriticalPath": true,
+      "prepDotIds": ["prep-dice-potatoes", "prep-parboil"]
+    },
+    {
+      "id": "bacon",
+      "name": "Thick-cut bacon",
+      "quantity": "6 strips",
+      "segments": [
+        {
+          "startMinute": 2,
+          "endMinute": 5,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 3.5, "icon": "flip", "note": "Flip bacon" }
+          ]
+        },
+        {
+          "startMinute": 5,
+          "endMinute": 7,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 5.5, "icon": "toss", "note": "Chop into bits for hash" }
+          ]
+        },
+        {
+          "startMinute": 7,
+          "endMinute": 12,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 5, "text": "Crispy but still slightly chewy" }
+      ],
+      "failureModes": [
+        { "condition": "Overcrowded griddle", "result": "Steams instead of crisps" }
+      ],
+      "isCriticalPath": false,
+      "prepDotIds": []
+    },
+    {
+      "id": "peppers",
+      "name": "Bell peppers",
+      "quantity": "1 pepper, diced",
+      "segments": [
+        {
+          "startMinute": 4,
+          "endMinute": 7,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 4, "icon": "oil-squirt", "note": "Oil" },
+            { "minuteMark": 5.5, "icon": "toss", "note": "Toss once" }
+          ]
+        },
+        {
+          "startMinute": 7,
+          "endMinute": 12,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 6.5, "text": "Charred edges, still some bite" }
+      ],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": ["prep-dice-peppers"]
+    },
+    {
+      "id": "eggs",
+      "name": "Eggs",
+      "quantity": "4 large",
+      "segments": [
+        {
+          "startMinute": 8.5,
+          "endMinute": 10,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 8.5, "icon": "oil-squirt", "note": "Butter the zone" },
+            { "minuteMark": 9.5, "icon": "cover", "note": "Dome with splash of water for steam" }
+          ]
+        },
+        {
+          "startMinute": 10,
+          "endMinute": 11,
+          "zone": "medium",
+          "pattern": "hatched",
+          "actions": [
+            { "minuteMark": 10, "icon": "steam", "note": "Steam under dome for set whites" }
+          ]
+        },
+        {
+          "startMinute": 11,
+          "endMinute": 12,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 10.5, "text": "Whites set, yolks still jiggly" }
+      ],
+      "failureModes": [
+        { "condition": "No dome / no water", "result": "Whites raw on top, yolk overcooked" }
+      ],
+      "isCriticalPath": false,
+      "prepDotIds": []
+    }
+  ],
+  "prepTasks": [
+    { "id": "prep-dice-potatoes", "timing": "day-of", "icon": "slice", "description": "Dice potatoes into 1/2\" cubes", "ingredientIds": ["potatoes"] },
+    { "id": "prep-parboil", "timing": "day-of", "icon": "preheat", "description": "Parboil potatoes 5 min, drain and dry", "ingredientIds": ["potatoes"] },
+    { "id": "prep-dice-peppers", "timing": "day-of", "icon": "slice", "description": "Dice bell peppers", "ingredientIds": ["peppers"] },
+    { "id": "prep-preheat", "timing": "last-30-seconds", "icon": "preheat", "description": "Preheat griddle — high on left, medium on right", "ingredientIds": [] }
+  ],
+  "griddlePlacements": [
+    { "ingredientId": "potatoes", "zone": "high", "startMinute": 0, "endMinute": 8, "position": { "x": 0.5, "y": 0.4 } },
+    { "ingredientId": "bacon", "zone": "medium", "startMinute": 2, "endMinute": 7, "position": { "x": 0.3, "y": 0.5 } },
+    { "ingredientId": "peppers", "zone": "high", "startMinute": 4, "endMinute": 7, "position": { "x": 0.25, "y": 0.7 } },
+    { "ingredientId": "eggs", "zone": "medium", "startMinute": 8.5, "endMinute": 11, "position": { "x": 0.5, "y": 0.5 } },
+    { "ingredientId": "potatoes", "zone": "medium", "startMinute": 8, "endMinute": 10, "position": { "x": 0.7, "y": 0.6 } }
+  ],
+  "plateUpStartMinute": 11,
+  "createdAt": "2026-04-09T00:00:00Z",
+  "updatedAt": "2026-04-09T00:00:00Z"
+}
