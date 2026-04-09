@@ -8,7 +8,7 @@
   "tags": ["beef", "stir-fry", "high-heat", "weeknight"],
   "phases": [
     { "id": "p1", "name": "Sear", "startMinute": 0, "endMinute": 2 },
-    { "id": "p2", "name": "Build", "startMinute": 2, "endMinute": 3.5 },
+    { "id": "p2", "name": "Sauté", "startMinute": 2, "endMinute": 3.5 },
     { "id": "p3", "name": "Sauce", "startMinute": 3.5, "endMinute": 4.5 },
     { "id": "p4", "name": "Plate", "startMinute": 4.5, "endMinute": 5 }
   ],

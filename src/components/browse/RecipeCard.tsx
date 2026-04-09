@@ -18,7 +18,16 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
         </div>
       </div>
       <div className="px-4 pb-4 pt-0">
-        <h3 className="font-semibold text-gray-900 text-base">{recipe.title}</h3>
+        <div className="flex items-start justify-between">
+          <h3 className="font-semibold text-gray-900 text-base">{recipe.title}</h3>
+          <Link
+            to={`/editor/${recipe.slug}`}
+            onClick={(e) => e.stopPropagation()}
+            className="text-xs text-gray-400 hover:text-blue-600 px-1.5 py-0.5 rounded hover:bg-blue-50 transition-colors flex-shrink-0"
+          >
+            Edit
+          </Link>
+        </div>
         <p className="text-sm text-gray-500 mt-0.5 line-clamp-2">{recipe.description}</p>
         <div className="flex items-center gap-2 mt-2">
           <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
