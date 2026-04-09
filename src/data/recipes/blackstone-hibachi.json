@@ -1,0 +1,246 @@
+{
+  "id": "blackstone-hibachi",
+  "slug": "blackstone-hibachi",
+  "title": "Blackstone Hibachi",
+  "description": "Restaurant-style hibachi at home — chicken, shrimp, fried rice, and veggies all going at once. The most spatula-intensive cook. Garlic butter and soy sauce tie everything together.",
+  "totalTimeMinutes": 12,
+  "defaultServings": 4,
+  "tags": ["chicken", "shrimp", "japanese", "rice", "crowd-pleaser", "weekend"],
+  "phases": [
+    { "id": "p1", "name": "Sear", "startMinute": 0, "endMinute": 4 },
+    { "id": "p2", "name": "Sauté", "startMinute": 4, "endMinute": 7 },
+    { "id": "p3", "name": "Crisp", "startMinute": 7, "endMinute": 10 },
+    { "id": "p4", "name": "Sauce", "startMinute": 10, "endMinute": 11 },
+    { "id": "p5", "name": "Plate", "startMinute": 11, "endMinute": 12 }
+  ],
+  "ingredients": [
+    {
+      "id": "chicken",
+      "name": "Chicken breast",
+      "quantity": "1.5 lb, cubed",
+      "segments": [
+        {
+          "startMinute": 0,
+          "endMinute": 3,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 0, "icon": "oil-squirt", "note": "Sesame oil" },
+            { "minuteMark": 1.5, "icon": "flip", "note": "Flip cubes" }
+          ]
+        },
+        {
+          "startMinute": 3,
+          "endMinute": 5,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 3.5, "icon": "toss", "note": "Toss with garlic butter" }
+          ]
+        },
+        {
+          "startMinute": 5,
+          "endMinute": 12,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 2, "text": "Golden sear on first side" },
+        { "minuteMark": 4.5, "text": "Cooked through, glossy from butter" }
+      ],
+      "failureModes": [
+        { "condition": "Cubes too large", "result": "Raw inside" },
+        { "condition": "Crowded", "result": "Steams, no sear" }
+      ],
+      "isCriticalPath": true,
+      "prepDotIds": ["prep-cube-chicken"]
+    },
+    {
+      "id": "shrimp",
+      "name": "Shrimp",
+      "quantity": "1/2 lb, peeled",
+      "segments": [
+        {
+          "startMinute": 3,
+          "endMinute": 5,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 3, "icon": "oil-squirt", "note": "Oil + garlic" },
+            { "minuteMark": 4, "icon": "flip", "note": "Flip when pink" }
+          ]
+        },
+        {
+          "startMinute": 5,
+          "endMinute": 12,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 4, "text": "Pink and curled on first side" },
+        { "minuteMark": 5, "text": "Fully opaque, tight C-shape" }
+      ],
+      "failureModes": [
+        { "condition": "Over 2 min per side", "result": "Rubbery" }
+      ],
+      "isCriticalPath": false,
+      "prepDotIds": ["prep-devein"]
+    },
+    {
+      "id": "veggies",
+      "name": "Zucchini & onion",
+      "quantity": "1 zucchini + 1 onion, sliced",
+      "segments": [
+        {
+          "startMinute": 2,
+          "endMinute": 5,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 2, "icon": "oil-squirt", "note": "Oil" },
+            { "minuteMark": 3.5, "icon": "toss", "note": "Toss halfway" }
+          ]
+        },
+        {
+          "startMinute": 5,
+          "endMinute": 7,
+          "zone": "medium",
+          "pattern": "hatched",
+          "actions": []
+        },
+        {
+          "startMinute": 7,
+          "endMinute": 12,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 5, "text": "Charred edges, still some snap" }
+      ],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": ["prep-slice-veg"]
+    },
+    {
+      "id": "rice",
+      "name": "Day-old rice",
+      "quantity": "4 cups cooked, cold",
+      "segments": [
+        {
+          "startMinute": 5,
+          "endMinute": 7,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 5, "icon": "oil-squirt", "note": "Sesame oil + butter" }
+          ]
+        },
+        {
+          "startMinute": 7,
+          "endMinute": 9.5,
+          "zone": "medium",
+          "pattern": "hatched",
+          "actions": [
+            { "minuteMark": 7, "icon": "hands-off", "note": "Let it crisp — don't touch" }
+          ]
+        },
+        {
+          "startMinute": 9.5,
+          "endMinute": 11,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 9.5, "icon": "toss", "note": "Flip and add soy sauce" },
+            { "minuteMark": 10, "icon": "liquid-squirt", "note": "Soy sauce" }
+          ]
+        },
+        {
+          "startMinute": 11,
+          "endMinute": 12,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 9.5, "text": "Crispy bottom layer, golden color" },
+        { "minuteMark": 10.5, "text": "Evenly coated in soy, fragrant" }
+      ],
+      "failureModes": [
+        { "condition": "Fresh rice (not day-old)", "result": "Mushy, won't crisp" },
+        { "condition": "Toss too early", "result": "No crispy layer" }
+      ],
+      "isCriticalPath": false,
+      "prepDotIds": ["prep-rice"]
+    },
+    {
+      "id": "eggs-hibachi",
+      "name": "Scrambled eggs",
+      "quantity": "3 large",
+      "segments": [
+        {
+          "startMinute": 4.5,
+          "endMinute": 5.5,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 4.5, "icon": "oil-squirt", "note": "Butter" },
+            { "minuteMark": 5, "icon": "toss", "note": "Scramble quickly" }
+          ]
+        }
+      ],
+      "dependsOn": ["rice"],
+      "sensoryMarkers": [],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": []
+    },
+    {
+      "id": "yum-yum",
+      "name": "Yum yum sauce",
+      "quantity": "1/2 cup",
+      "segments": [
+        {
+          "startMinute": 10.5,
+          "endMinute": 12,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": ["prep-yum-yum"]
+    }
+  ],
+  "prepTasks": [
+    { "id": "prep-cube-chicken", "timing": "day-of", "icon": "slice", "description": "Cube chicken into 1\" pieces, season with salt/pepper/garlic", "ingredientIds": ["chicken"] },
+    { "id": "prep-devein", "timing": "day-of", "icon": "slice", "description": "Peel and devein shrimp", "ingredientIds": ["shrimp"] },
+    { "id": "prep-slice-veg", "timing": "day-of", "icon": "slice", "description": "Slice zucchini into half-moons, dice onion", "ingredientIds": ["veggies"] },
+    { "id": "prep-rice", "timing": "night-before", "icon": "preheat", "description": "Cook rice and refrigerate overnight", "ingredientIds": ["rice"] },
+    { "id": "prep-yum-yum", "timing": "day-of", "icon": "whisk", "description": "Mix yum yum sauce (mayo + rice vinegar + sugar + paprika + garlic)", "ingredientIds": ["yum-yum"] },
+    { "id": "prep-preheat", "timing": "last-30-seconds", "icon": "preheat", "description": "Preheat entire griddle surface", "ingredientIds": [] }
+  ],
+  "griddlePlacements": [
+    { "ingredientId": "chicken", "zone": "high", "startMinute": 0, "endMinute": 5, "position": { "x": 0.35, "y": 0.35 } },
+    { "ingredientId": "shrimp", "zone": "high", "startMinute": 3, "endMinute": 5, "position": { "x": 0.7, "y": 0.3 } },
+    { "ingredientId": "veggies", "zone": "medium", "startMinute": 2, "endMinute": 7, "position": { "x": 0.3, "y": 0.5 } },
+    { "ingredientId": "rice", "zone": "medium", "startMinute": 5, "endMinute": 11, "position": { "x": 0.65, "y": 0.6 } },
+    { "ingredientId": "eggs-hibachi", "zone": "high", "startMinute": 4.5, "endMinute": 5.5, "position": { "x": 0.5, "y": 0.7 } }
+  ],
+  "plateUpStartMinute": 11,
+  "createdAt": "2026-04-09T00:00:00Z",
+  "updatedAt": "2026-04-09T00:00:00Z"
+}

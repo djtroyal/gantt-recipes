@@ -1,0 +1,180 @@
+{
+  "id": "chicken-quesadillas",
+  "slug": "chicken-quesadillas",
+  "title": "Chicken Quesadillas",
+  "description": "Griddle-pressed quesadillas with seasoned chicken, melty cheese, and crispy tortillas. Cook the chicken first, then assemble and toast. Two spatulas for the flip.",
+  "totalTimeMinutes": 10,
+  "defaultServings": 2,
+  "tags": ["chicken", "mexican", "quick", "weeknight"],
+  "phases": [
+    { "id": "p1", "name": "Sear", "startMinute": 0, "endMinute": 4 },
+    { "id": "p2", "name": "Build", "startMinute": 4, "endMinute": 5.5 },
+    { "id": "p3", "name": "Toast", "startMinute": 5.5, "endMinute": 9 },
+    { "id": "p4", "name": "Plate", "startMinute": 9, "endMinute": 10 }
+  ],
+  "ingredients": [
+    {
+      "id": "chicken",
+      "name": "Chicken thighs",
+      "quantity": "1 lb, boneless skinless",
+      "segments": [
+        {
+          "startMinute": 0,
+          "endMinute": 2.5,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 0, "icon": "oil-squirt", "note": "Oil + season" }
+          ]
+        },
+        {
+          "startMinute": 2.5,
+          "endMinute": 4,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 2.5, "icon": "flip", "note": "Flip — should have grill marks" },
+            { "minuteMark": 3.5, "icon": "toss", "note": "Chop into small pieces" }
+          ]
+        },
+        {
+          "startMinute": 4,
+          "endMinute": 5.5,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": []
+        },
+        {
+          "startMinute": 5.5,
+          "endMinute": 10,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 2.5, "text": "Deep brown sear, juices running clear" },
+        { "minuteMark": 4, "text": "165\u00b0F internal, chopped small" }
+      ],
+      "failureModes": [
+        { "condition": "Flip too early", "result": "No crust, sticks to griddle" },
+        { "condition": "Over 5 min total", "result": "Dry, rubbery" }
+      ],
+      "isCriticalPath": true,
+      "prepDotIds": ["prep-season"]
+    },
+    {
+      "id": "tortillas",
+      "name": "Flour tortillas",
+      "quantity": "4 large (10\")",
+      "segments": [
+        {
+          "startMinute": 5,
+          "endMinute": 7,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 5, "icon": "oil-squirt", "note": "Light butter on griddle" }
+          ]
+        },
+        {
+          "startMinute": 7,
+          "endMinute": 9,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 7, "icon": "flip", "note": "Flip — bottom should be golden and crispy" }
+          ]
+        },
+        {
+          "startMinute": 9,
+          "endMinute": 10,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 7, "text": "Golden brown spots, cheese melting inside" },
+        { "minuteMark": 9, "text": "Both sides crispy, cheese fully melted" }
+      ],
+      "failureModes": [
+        { "condition": "Heat too high", "result": "Burnt outside, cold cheese inside" }
+      ],
+      "isCriticalPath": false,
+      "prepDotIds": []
+    },
+    {
+      "id": "cheese-mix",
+      "name": "Cheese blend",
+      "quantity": "2 cups shredded (cheddar + pepper jack)",
+      "segments": [
+        {
+          "startMinute": 5,
+          "endMinute": 7,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": []
+        }
+      ],
+      "dependsOn": ["tortillas"],
+      "sensoryMarkers": [],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": []
+    },
+    {
+      "id": "peppers-onions",
+      "name": "Peppers & onions",
+      "quantity": "1/2 each, diced",
+      "segments": [
+        {
+          "startMinute": 1,
+          "endMinute": 3.5,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 1, "icon": "oil-squirt", "note": "Oil first" },
+            { "minuteMark": 2.5, "icon": "toss", "note": "Toss" }
+          ]
+        },
+        {
+          "startMinute": 3.5,
+          "endMinute": 5.5,
+          "zone": "medium",
+          "pattern": "hatched",
+          "actions": []
+        },
+        {
+          "startMinute": 5.5,
+          "endMinute": 10,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 3, "text": "Softened, slightly charred edges" }
+      ],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": ["prep-dice-veg"]
+    }
+  ],
+  "prepTasks": [
+    { "id": "prep-season", "timing": "day-of", "icon": "marinate", "description": "Season chicken with cumin, chili powder, garlic powder, salt", "ingredientIds": ["chicken"] },
+    { "id": "prep-dice-veg", "timing": "day-of", "icon": "slice", "description": "Dice peppers and onions", "ingredientIds": ["peppers-onions"] },
+    { "id": "prep-preheat", "timing": "last-30-seconds", "icon": "preheat", "description": "Preheat griddle to high", "ingredientIds": [] }
+  ],
+  "griddlePlacements": [
+    { "ingredientId": "chicken", "zone": "high", "startMinute": 0, "endMinute": 4, "position": { "x": 0.5, "y": 0.3 } },
+    { "ingredientId": "peppers-onions", "zone": "high", "startMinute": 1, "endMinute": 3.5, "position": { "x": 0.2, "y": 0.5 } },
+    { "ingredientId": "tortillas", "zone": "medium", "startMinute": 5, "endMinute": 9, "position": { "x": 0.5, "y": 0.5 } }
+  ],
+  "plateUpStartMinute": 9,
+  "createdAt": "2026-04-09T00:00:00Z",
+  "updatedAt": "2026-04-09T00:00:00Z"
+}

@@ -1,0 +1,165 @@
+{
+  "id": "oklahoma-onion-burgers",
+  "slug": "oklahoma-onion-burgers",
+  "title": "Oklahoma Onion Burgers",
+  "description": "Depression-era burger technique — paper-thin onion slices pressed into the patty and smashed together. The onions caramelize into the meat, creating an inseparable crust. Simpler than smash burgers but arguably better.",
+  "totalTimeMinutes": 7,
+  "defaultServings": 2,
+  "tags": ["beef", "quick", "classic", "onion", "weeknight"],
+  "phases": [
+    { "id": "p1", "name": "Prep", "startMinute": 0, "endMinute": 0.5 },
+    { "id": "p2", "name": "Sear", "startMinute": 0.5, "endMinute": 4 },
+    { "id": "p3", "name": "Build", "startMinute": 4, "endMinute": 6 },
+    { "id": "p4", "name": "Plate", "startMinute": 6, "endMinute": 7 }
+  ],
+  "ingredients": [
+    {
+      "id": "onion-patties",
+      "name": "Onion + beef patties",
+      "quantity": "8 oz beef + 1 large onion, paper-thin",
+      "segments": [
+        {
+          "startMinute": 0.5,
+          "endMinute": 1.5,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 0.5, "icon": "oil-squirt", "note": "Oil griddle, pile onion shreds, place ball on top, SMASH" }
+          ]
+        },
+        {
+          "startMinute": 1.5,
+          "endMinute": 3.5,
+          "zone": "high",
+          "pattern": "hatched",
+          "actions": [
+            { "minuteMark": 1.5, "icon": "hands-off", "note": "DO NOT TOUCH — onions are fusing into crust" }
+          ]
+        },
+        {
+          "startMinute": 3.5,
+          "endMinute": 4.5,
+          "zone": "high",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 3.5, "icon": "flip", "note": "Scrape and flip — onion crust should be dark brown" }
+          ]
+        },
+        {
+          "startMinute": 4.5,
+          "endMinute": 5.5,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 4.5, "icon": "cover", "note": "Add cheese, dome to melt" }
+          ]
+        },
+        {
+          "startMinute": 5.5,
+          "endMinute": 7,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 1, "text": "Loud sizzle, onions steaming under patty" },
+        { "minuteMark": 3, "text": "Edges deeply browned, onions caramelized into meat" },
+        { "minuteMark": 3.5, "text": "Onion-beef crust is ONE piece — dark mahogany" },
+        { "minuteMark": 5, "text": "Cheese melted, second side seared" }
+      ],
+      "failureModes": [
+        { "condition": "Onions too thick", "result": "Fall off, don't fuse" },
+        { "condition": "Flip too early", "result": "No caramelized crust" },
+        { "condition": "Smash not flat enough", "result": "Thick patty, less onion contact" }
+      ],
+      "isCriticalPath": true,
+      "prepDotIds": ["prep-slice-onion", "prep-form-balls"]
+    },
+    {
+      "id": "cheese-ok",
+      "name": "American cheese",
+      "quantity": "2 slices",
+      "segments": [
+        {
+          "startMinute": 4.5,
+          "endMinute": 5.5,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 4.5, "icon": "cover", "note": "Dome to melt" }
+          ]
+        }
+      ],
+      "dependsOn": ["onion-patties"],
+      "sensoryMarkers": [],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": []
+    },
+    {
+      "id": "buns-ok",
+      "name": "Soft white buns",
+      "quantity": "2 buns",
+      "segments": [
+        {
+          "startMinute": 3,
+          "endMinute": 4.5,
+          "zone": "medium",
+          "pattern": "solid",
+          "actions": [
+            { "minuteMark": 3, "icon": "oil-squirt", "note": "Butter cut side, place down" },
+            { "minuteMark": 4, "icon": "flip", "note": "Check for golden" }
+          ]
+        },
+        {
+          "startMinute": 4.5,
+          "endMinute": 7,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [
+        { "minuteMark": 4.5, "text": "Light golden, not too dark" }
+      ],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": []
+    },
+    {
+      "id": "pickles-mustard",
+      "name": "Pickles + yellow mustard",
+      "quantity": "As needed",
+      "segments": [
+        {
+          "startMinute": 6,
+          "endMinute": 7,
+          "zone": "cool",
+          "pattern": "dotted",
+          "actions": []
+        }
+      ],
+      "dependsOn": [],
+      "sensoryMarkers": [],
+      "failureModes": [],
+      "isCriticalPath": false,
+      "prepDotIds": []
+    }
+  ],
+  "prepTasks": [
+    { "id": "prep-slice-onion", "timing": "day-of", "icon": "slice", "description": "Slice onion paper-thin with mandoline — thinner than you think", "ingredientIds": ["onion-patties"] },
+    { "id": "prep-form-balls", "timing": "day-of", "icon": "slice", "description": "Form 4oz beef balls, keep loose", "ingredientIds": ["onion-patties"] },
+    { "id": "prep-preheat", "timing": "last-30-seconds", "icon": "preheat", "description": "Preheat griddle screaming hot", "ingredientIds": [] }
+  ],
+  "griddlePlacements": [
+    { "ingredientId": "onion-patties", "zone": "high", "startMinute": 0.5, "endMinute": 4.5, "position": { "x": 0.5, "y": 0.35 } },
+    { "ingredientId": "buns-ok", "zone": "medium", "startMinute": 3, "endMinute": 4.5, "position": { "x": 0.3, "y": 0.6 } },
+    { "ingredientId": "onion-patties", "zone": "medium", "startMinute": 4.5, "endMinute": 5.5, "position": { "x": 0.65, "y": 0.65 } }
+  ],
+  "plateUpStartMinute": 6,
+  "createdAt": "2026-04-09T00:00:00Z",
+  "updatedAt": "2026-04-09T00:00:00Z"
+}
