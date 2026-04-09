@@ -11,7 +11,7 @@ const CANVAS_WIDTH = 900;
 const CANVAS_HEIGHT = 450;
 const PADDING = 20;
 const RADIUS = 28;
-const MIN_DIST = RADIUS * 2 + 10;
+const MIN_DIST = RADIUS * 2 + 30; // extra clearance for label pills below circles
 const TWEEN_SPEED = 8; // exponential smoothing constant
 
 // Zone layout helpers

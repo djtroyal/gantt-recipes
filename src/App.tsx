@@ -13,6 +13,7 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/recipe/:slug" element={<RecipePage />} />
           <Route path="/editor" element={<EditorPage />} />
+          <Route path="/editor/:slug" element={<EditorPage />} />
           <Route path="/multi-cook" element={<MultiCookPage />} />
         </Routes>
       </AppShell>

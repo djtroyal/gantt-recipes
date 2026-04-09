@@ -1,8 +1,10 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { useEditorStore } from '../stores/editor-store';
 import { useRecipeStore } from '../stores/recipe-store';
-import { GanttChart } from '../components/gantt/GanttChart';
+import { EditableGanttChart } from '../components/gantt/EditableGanttChart';
 import { PrepSection } from '../components/prep/PrepSection';
+import { COOKING_PHASES, PHASE_NAMES } from '../lib/cooking-phases';
 import type { Recipe, HeatZone, BarPattern, PrepIconType, PrepTiming, CookActionIcon } from '../types/recipe';
 
 const ZONES: HeatZone[] = ['high', 'medium', 'cool'];
@@ -12,12 +14,38 @@ const PREP_TIMINGS: PrepTiming[] = ['night-before', 'day-of', 'last-30-seconds']
 const ACTION_ICONS: CookActionIcon[] = ['hands-off', 'flip', 'cover', 'toss', 'steam', 'oil-squirt', 'liquid-squirt'];
 
 export function EditorPage() {
+  const { slug } = useParams<{ slug?: string }>();
   const store = useEditorStore();
-  const { addRecipe } = useRecipeStore();
+  const { addRecipe, initialize, getRecipeBySlug } = useRecipeStore();
   const [importJson, setImportJson] = useState('');
   const [showImport, setShowImport] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [customPhaseIds, setCustomPhaseIds] = useState<Set<string>>(new Set());
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const loadedSlugRef = useRef<string | null>(null);
+
+  // Load existing recipe when editing via /editor/:slug
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
+
+  useEffect(() => {
+    if (slug && slug !== loadedSlugRef.current) {
+      const recipe = getRecipeBySlug(slug);
+      if (recipe) {
+        store.loadRecipe(recipe);
+        loadedSlugRef.current = slug;
+        // Detect which phases are custom (not in the global list)
+        const customs = new Set<string>();
+        recipe.phases.forEach((p) => {
+          if (!PHASE_NAMES.includes(p.name)) customs.add(p.id);
+        });
+        setCustomPhaseIds(customs);
+      }
+    }
+  }, [slug, getRecipeBySlug, store, initialize]);
+
+  const isEditMode = !!slug;
 
   const handleSave = async () => {
     const recipe = store.getRecipe();
@@ -64,6 +92,30 @@ export function EditorPage() {
     reader.readAsText(file);
   };
 
+  const handleNewRecipe = () => {
+    store.resetRecipe();
+    loadedSlugRef.current = null;
+    setCustomPhaseIds(new Set());
+  };
+
+  const handlePhaseNameChange = (phaseId: string, value: string) => {
+    if (value === '__custom__') {
+      setCustomPhaseIds((prev) => new Set(prev).add(phaseId));
+      store.updatePhase(phaseId, { name: '' });
+    } else {
+      setCustomPhaseIds((prev) => {
+        const next = new Set(prev);
+        next.delete(phaseId);
+        return next;
+      });
+      store.updatePhase(phaseId, { name: value });
+    }
+  };
+
+  const handleSegmentUpdate = (ingredientId: string, segmentIndex: number, updates: { startMinute?: number; endMinute?: number }) => {
+    store.updateSegment(ingredientId, segmentIndex, updates);
+  };
+
   const selectedIng = store.recipe.ingredients.find((i) => i.id === store.selectedIngredientId);
 
   return (
@@ -71,8 +123,18 @@ export function EditorPage() {
       {/* Editor Panel */}
       <div className="w-[420px] flex-shrink-0 space-y-4 max-h-[calc(100vh-100px)] overflow-y-auto pr-2">
         <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold text-gray-900">Recipe Editor</h1>
+          <div className="flex items-center gap-3">
+            <Link to="/" className="text-sm text-gray-400 hover:text-gray-600">&larr;</Link>
+            <h1 className="text-xl font-bold text-gray-900">
+              {isEditMode ? 'Edit Recipe' : 'New Recipe'}
+            </h1>
+          </div>
           <div className="flex gap-2">
+            {isEditMode && (
+              <Link to="/editor" onClick={handleNewRecipe} className="text-xs px-2 py-1 bg-gray-100 rounded hover:bg-gray-200">
+                + New
+              </Link>
+            )}
             <button onClick={() => setShowImport(!showImport)} className="text-xs px-2 py-1 bg-gray-100 rounded hover:bg-gray-200">
               Import
             </button>
@@ -158,31 +220,56 @@ export function EditorPage() {
             <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">Phases</h2>
             <button onClick={() => store.addPhase()} className="text-xs text-blue-600 hover:text-blue-800">+ Add</button>
           </div>
-          {store.recipe.phases.map((phase) => (
-            <div key={phase.id} className="flex gap-1 items-center">
-              <input
-                value={phase.name}
-                onChange={(e) => store.updatePhase(phase.id, { name: e.target.value })}
-                className="flex-1 px-2 py-1 text-xs border border-gray-200 rounded"
-              />
-              <input
-                type="number"
-                value={phase.startMinute}
-                onChange={(e) => store.updatePhase(phase.id, { startMinute: Number(e.target.value) })}
-                className="w-14 px-1 py-1 text-xs border border-gray-200 rounded text-center"
-                step={0.5}
-              />
-              <span className="text-xs text-gray-400">-</span>
-              <input
-                type="number"
-                value={phase.endMinute}
-                onChange={(e) => store.updatePhase(phase.id, { endMinute: Number(e.target.value) })}
-                className="w-14 px-1 py-1 text-xs border border-gray-200 rounded text-center"
-                step={0.5}
-              />
-              <button onClick={() => store.removePhase(phase.id)} className="text-xs text-red-400 hover:text-red-600 px-1">x</button>
-            </div>
-          ))}
+          {store.recipe.phases.map((phase) => {
+            const isCustom = customPhaseIds.has(phase.id) || (!PHASE_NAMES.includes(phase.name) && phase.name !== '');
+            return (
+              <div key={phase.id} className="space-y-1">
+                <div className="flex gap-1 items-center">
+                  <select
+                    value={isCustom ? '__custom__' : phase.name}
+                    onChange={(e) => handlePhaseNameChange(phase.id, e.target.value)}
+                    className="flex-1 px-2 py-1 text-xs border border-gray-200 rounded"
+                  >
+                    <option value="" disabled>Select phase...</option>
+                    {COOKING_PHASES.map((cp) => (
+                      <option key={cp.id} value={cp.name}>{cp.name}</option>
+                    ))}
+                    <option value="__custom__">Custom...</option>
+                  </select>
+                  <input
+                    type="number"
+                    value={phase.startMinute}
+                    onChange={(e) => store.updatePhase(phase.id, { startMinute: Number(e.target.value) })}
+                    className="w-14 px-1 py-1 text-xs border border-gray-200 rounded text-center"
+                    step={0.5}
+                  />
+                  <span className="text-xs text-gray-400">-</span>
+                  <input
+                    type="number"
+                    value={phase.endMinute}
+                    onChange={(e) => store.updatePhase(phase.id, { endMinute: Number(e.target.value) })}
+                    className="w-14 px-1 py-1 text-xs border border-gray-200 rounded text-center"
+                    step={0.5}
+                  />
+                  <button onClick={() => store.removePhase(phase.id)} className="text-xs text-red-400 hover:text-red-600 px-1">x</button>
+                </div>
+                {isCustom && (
+                  <input
+                    value={phase.name}
+                    onChange={(e) => store.updatePhase(phase.id, { name: e.target.value })}
+                    placeholder="Custom phase name..."
+                    className="w-full px-2 py-1 text-xs border border-blue-200 rounded bg-blue-50"
+                    autoFocus
+                  />
+                )}
+                {!isCustom && phase.name && (
+                  <p className="text-[10px] text-gray-400 pl-1">
+                    {COOKING_PHASES.find((cp) => cp.name === phase.name)?.description}
+                  </p>
+                )}
+              </div>
+            );
+          })}
         </section>
 
         {/* Ingredients */}
@@ -354,7 +441,7 @@ export function EditorPage() {
       {/* Live Preview */}
       <div className="flex-1 min-w-0">
         <div className="sticky top-20">
-          <h2 className="text-sm font-semibold text-gray-500 mb-2">Live Preview</h2>
+          <h2 className="text-sm font-semibold text-gray-500 mb-2">Live Preview — drag bars to reposition, drag edges to resize</h2>
           <div className="bg-white rounded-xl border border-gray-200 p-4 overflow-x-auto">
             {store.recipe.title && (
               <div className="mb-3">
@@ -366,7 +453,11 @@ export function EditorPage() {
               <PrepSection prepTasks={store.recipe.prepTasks} />
             )}
             {store.recipe.ingredients.length > 0 ? (
-              <GanttChart recipe={store.recipe} width={Math.max(700, 900)} />
+              <EditableGanttChart
+                recipe={store.recipe}
+                width={Math.max(700, 900)}
+                onSegmentUpdate={handleSegmentUpdate}
+              />
             ) : (
               <div className="text-center py-12 text-gray-300">
                 <p>Add ingredients and segments to see the chart</p>

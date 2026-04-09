@@ -113,6 +113,12 @@ export function RecipePage() {
             multiplier={servingsMultiplier}
             onChange={setServingsMultiplier}
           />
+          <Link
+            to={`/editor/${recipe.slug}`}
+            className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50"
+          >
+            Edit
+          </Link>
           <button
             onClick={() => window.print()}
             className="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50"
